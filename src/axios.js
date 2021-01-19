@@ -2,7 +2,9 @@
 
 import axios from "axios";
 
-const instance = axios.create({ baseURL: "http://localhost:80/api" });
+const instance = axios.create({
+  baseURL: "https://web-course-app.herokuapp.com/api",
+});
 
 const createUser = async (payload) => {
   const {
