@@ -20,6 +20,7 @@ import {
   updateComment,
   updateCourse,
 } from "../axios";
+import { Alert } from "@material-ui/lab";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -102,11 +103,14 @@ export default function CommentPage(props) {
   useEffect(async () => {
     // console.log("user: ", user);
     if (user.id !== undefined) {
-      let next_comments = await findUserComment(commentId, user.name);
-      if (next_comments === null) {
+      let next_comment = await findUserComment(commentId, user.name);
+      if (next_comment === null) {
         setComment(commentInit);
       } else {
-        setComment(next_comments);
+        setComment(next_comment);
+        setTag_1(JSON.parse(next_comment.tag_1));
+        setTag_2(JSON.parse(next_comment.tag_2));
+        setTag_3(JSON.parse(next_comment.tag_3));
         setHasCommentAlready(true);
         // console.log("next_comments: ", next_comments);
       }
@@ -132,98 +136,117 @@ export default function CommentPage(props) {
     console.log("handleAddComment");
     console.log(comment);
     let courseData = commentId.split("_");
-    if (!hasCommentAlready) {
-      createComment(comment).then((msg) => {
-        if (msg === "success") {
-          setComments([...comments, comment]);
-          setValue(0);
-        } else {
-          console.log("fail to create comment");
-        }
-      });
-      let courses = await findCourse({
-        courseName: courseData[0],
-        professor: courseData[1],
-      });
-      let newtags = [
-        JSON.parse(comment.tag_1).title,
-        JSON.parse(comment.tag_2).title,
-        JSON.parse(comment.tag_3).title,
-      ];
-      console.log(courses[0]);
-      console.log(courses[0].tags);
-      let next_tags = [...JSON.parse(courses[0].tags)];
-      let exist_flag = [false, false, false];
-      for (let i = 0; i < next_tags.length; i++) {
-        for (let j = 0; j < newtags.length; j++) {
-          if (newtags[j] === next_tags[i]) {
-            exist_flag[j] = true;
-          }
-        }
-      }
-      for (let j = 0; j < newtags.length; j++) {
-        if (exist_flag[j] === false) {
-          next_tags.push(newtags[j]);
-        }
-      }
-      updateCourse(courseData[0], courseData[1], JSON.stringify(next_tags));
-    } else {
-      updateComment(commentId, user.name, comment).then((msg) => {
-        if (msg === "success") {
-          let updateIndex = comments.findIndex((x) => {
-            return x.id === commentId && x.username === user.name;
-          });
-          let next_comments = [...comments];
-          next_comments[updateIndex] = comment;
-          setComments(next_comments);
-          setValue(0);
-          // console.log("update comment success");
-        } else {
-          console.log("fail to update comment");
-        }
-      });
-      // console.log([comment.tag_1, comment.tag_2, comment.tag_3]);
 
-      updateCourse(
-        courseData[0],
-        courseData[1],
-        JSON.stringify([
+    let empty = false;
+    let emptyKey = "";
+    let keys = Object.keys(comment);
+    keys.map((key) => {
+      if (comment[key] === "") {
+        empty = true;
+        emptyKey = key;
+        alert('"' + emptyKey + '"' + " is empty!");
+      }
+    });
+
+    if (!empty) {
+      if (!hasCommentAlready) {
+        createComment(comment).then((msg) => {
+          if (msg === "success") {
+            setComments([...comments, comment]);
+            setValue(0);
+          } else {
+            console.log("fail to create comment");
+          }
+        });
+        let courses = await findCourse({
+          courseName: courseData[0],
+          professor: courseData[1],
+        });
+        let newtags = [
           JSON.parse(comment.tag_1).title,
           JSON.parse(comment.tag_2).title,
           JSON.parse(comment.tag_3).title,
-        ])
-      );
-    }
+        ];
+        console.log(courses[0]);
+        console.log(courses[0].tags);
+        let next_tags;
+        if (courses[0].tags === "") {
+          next_tags = [];
+        } else {
+          next_tags = [...JSON.parse(courses[0].tags)];
+        }
+        let exist_flag = [false, false, false];
+        for (let i = 0; i < next_tags.length; i++) {
+          for (let j = 0; j < newtags.length; j++) {
+            if (newtags[j] === next_tags[i]) {
+              exist_flag[j] = true;
+            }
+          }
+        }
+        for (let j = 0; j < newtags.length; j++) {
+          if (exist_flag[j] === false) {
+            next_tags.push(newtags[j]);
+          }
+        }
+        updateCourse(courseData[0], courseData[1], JSON.stringify(next_tags));
+      } else {
+        updateComment(commentId, user.name, comment).then((msg) => {
+          if (msg === "success") {
+            let updateIndex = comments.findIndex((x) => {
+              return x.id === commentId && x.username === user.name;
+            });
+            let next_comments = [...comments];
+            next_comments[updateIndex] = comment;
+            setComments(next_comments);
+            setValue(0);
+            // console.log("update comment success");
+          } else {
+            console.log("fail to update comment");
+          }
+        });
+        // console.log([comment.tag_1, comment.tag_2, comment.tag_3]);
 
-    if (newTag_1) {
-      createTag(newTag_1).then((msg) => {
-        if (msg === "success") {
-          // setAllTags([...allTags, newTag_1]);
-          setNewTag_1(null);
-        } else {
-          console.log("fail to create tag1");
-        }
-      });
-    }
-    if (newTag_2) {
-      createTag(newTag_2).then((msg) => {
-        if (msg === "success") {
-          // setAllTags([...allTags, newTag_2]);
-          setNewTag_2(null);
-        } else {
-          console.log("fail to create tag2");
-        }
-      });
-    }
-    if (newTag_3) {
-      createTag(newTag_3).then((msg) => {
-        if (msg === "success") {
-          // setAllTags([...allTags, newTag_3]);
-          setNewTag_3(null);
-        } else {
-          console.log("fail to create tag3");
-        }
-      });
+        updateCourse(
+          courseData[0],
+          courseData[1],
+          JSON.stringify([
+            JSON.parse(comment.tag_1).title,
+            JSON.parse(comment.tag_2).title,
+            JSON.parse(comment.tag_3).title,
+          ])
+        );
+      }
+
+      if (newTag_1) {
+        createTag(newTag_1).then((msg) => {
+          if (msg === "success") {
+            // setAllTags([...allTags, newTag_1]);
+            setNewTag_1(null);
+          } else {
+            console.log("fail to create tag1");
+          }
+        });
+      }
+      if (newTag_2) {
+        createTag(newTag_2).then((msg) => {
+          if (msg === "success") {
+            // setAllTags([...allTags, newTag_2]);
+            setNewTag_2(null);
+          } else {
+            console.log("fail to create tag2");
+          }
+        });
+      }
+      if (newTag_3) {
+        createTag(newTag_3).then((msg) => {
+          if (msg === "success") {
+            // setAllTags([...allTags, newTag_3]);
+            setNewTag_3(null);
+          } else {
+            console.log("fail to create tag3");
+          }
+        });
+      }
     }
   };
 

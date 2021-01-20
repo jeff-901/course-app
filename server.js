@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, "build")));
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use(express.json());
+
 app.use("/api", apiRoutes);
 
 app.get("/ping", function (req, res) {

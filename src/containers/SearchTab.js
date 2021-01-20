@@ -11,6 +11,7 @@ import DepartmentSearch from "../components/SearchTab/DepartmentSearch";
 import AllSearch from "../components/SearchTab/AllSearch";
 import GeneralSearch from "../components/SearchTab/GeneralSearch";
 import CommonSearch from "../components/SearchTab/CommonSearch";
+import ProgramSearch from "../components/SearchTab/ProgramSearch";
 import OtherSearch from "../components/SearchTab/OtherSearch";
 
 function TabPanel(props) {
@@ -87,6 +88,15 @@ export default function SearchTabs(props) {
     {
       共同必修: (
         <CommonSearch
+          searchConditions={props.searchConditions}
+          setSearchConditions={props.setSearchConditions}
+          // search={props.search}
+        />
+      ),
+    },
+    {
+      學程: (
+        <ProgramSearch
           searchConditions={props.searchConditions}
           setSearchConditions={props.setSearchConditions}
           // search={props.search}

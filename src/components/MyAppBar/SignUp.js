@@ -54,11 +54,11 @@ function SignUp(props) {
   const [passwordHelpText, setPasswordHelpText] = useState("");
   const [validPassword2, setValidPassword2] = useState(true);
   const [password2HelpText, setPassword2HelpText] = useState("");
-
+  console.log("props", props)
   const handleClose = () => {
     setOpen(false);
-    props.setSignIn(true);
-    props.setOpen(false);
+    props.setSignup(false);
+    // props.setOpen(false);
   };
 
   const handleOpen = () => {
@@ -102,7 +102,7 @@ function SignUp(props) {
         courses: JSON.stringify([]),
       }).then((msg) => {
         if (msg === "success") {
-          props.setSignIn(true);
+          props.setSignup(false);
         } else {
           setUsernameHelpText("User create fail!");
           setValidUsername(false);
@@ -215,7 +215,7 @@ function SignUp(props) {
         >
           Sign Up
         </Button>
-        <Grid container justify="flex-end">
+        {/* <Grid container justify="flex-end">
           <Grid item>
             <Link
               href="#"
@@ -227,7 +227,7 @@ function SignUp(props) {
               {"Already have an account? Sign in"}
             </Link>
           </Grid>
-        </Grid>
+        </Grid> */}
       </form>
     </div>
   );

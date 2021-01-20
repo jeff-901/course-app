@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
@@ -230,8 +230,8 @@ const useStyle = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: "80%",
-    height: "80%",
+    width: "90%",
+    height: "90%",
     overflow: "scroll",
   },
 }));
@@ -245,12 +245,14 @@ function SearchCourseTable(props) {
     findTags,
     allTags,
     setAllTags,
+    page,
+    setPage,
   } = props;
   const [commentId, setCommentId] = useState("");
   const [openComment, setOpenComment] = useState(false);
   const [comments, setComments] = useState([]);
   const findComments = async (id) => {
-    // console.log(id);
+    setComments([]); // console.log(id);
     let data = await findComment(id);
     // console.log(data);
     setComments(data);
@@ -277,11 +279,21 @@ function SearchCourseTable(props) {
     "加入",
     "評論",
   ];
-  const [page, setPage] = React.useState(0);
+
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    console.log("scroll");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
+
+  useEffect(() => {
+    console.log("change")
+    window.scrollTo(0, 0);
+  }, [page]);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);

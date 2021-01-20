@@ -4,12 +4,9 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
-import ListItemText from "@material-ui/core/ListItemText";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 300,
   },
 }));
-
+// TODO: program list
 const option_list1 = [
   "軍訓",
   "共同選修",
@@ -43,14 +40,11 @@ const option_list1 = [
   "寫作教學",
   "基本能力課程",
 ];
-const option_list2 = [1, 2, 3];
 
 function OtherSearch(props) {
   const { searchConditions, setSearchConditions } = props;
   const classes = useStyles();
   const [select_1, setSelect_1] = useState([]);
-  const [select_2, setSelect_2] = useState([]);
-  // const [select_3, setSelect_3] = useState([]);
   useEffect(() => {
     let flag = true;
     option_list1.map((option) => {

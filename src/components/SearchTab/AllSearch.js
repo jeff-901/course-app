@@ -121,6 +121,17 @@ function AllSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={select_2}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={(e) => {
             setSelect_2(e.target.value);
             let booleanOptions = [false, false, false];
@@ -159,6 +170,17 @@ function AllSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={select_3}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={(e) => {
             setSelect_3(e.target.value);
             let next_searchConditions = { ...searchConditions };

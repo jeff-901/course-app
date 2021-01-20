@@ -3,6 +3,7 @@
 // import User from "../models/user";
 const User = require("../models/user");
 const ntuccLogin = require("./ntuccLogin.js");
+import sha256 from "../../src/Mysha256.js";
 
 // import User from "../models/user";
 // import ntuccLogin from "./ntuccLogin.js";
@@ -27,7 +28,20 @@ exports.CheckUser = async (req, res) => {
     user_info = JSON.parse(data);
     console.log(user_info);
     if (!user_info.result) {
-      res.status(403).send({ message: "error", user: 0 });
+      User.find({ id: client_id }).exec((err, r) => {
+        if (err) {
+          res.status(403).send({ message: "error", user: 0 });
+        } else if (r === undefined || r.length === 0) {
+          res.status(200).send({ message: "invalid user", user: 0 });
+        } else {
+          if (r[0].password === sha256(client_password)) {
+            res.status(200).send({ message: "success", user: r[0] });
+          } else {
+            res.status(200).send({ message: "wrong password", user: 0 });
+          }
+        }
+      })
+      // res.status(200).send({ message: "invalid user", user: 0 });
     } else {
       User.find({ id: client_id }).exec((err, r) => {
         if (err) {

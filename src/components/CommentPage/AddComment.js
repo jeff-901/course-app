@@ -118,7 +118,7 @@ export default function AddComment(props) {
         <TextField
           id="outlined-multiline-static"
           multiline
-          rows={4}
+          rows={8}
           value={comment.book}
           onChange={(e) => {
             setComment((comment) => ({
@@ -136,7 +136,7 @@ export default function AddComment(props) {
         <TextField
           id="outlined-multiline-static"
           multiline
-          rows={4}
+          rows={8}
           value={comment.teachingStyle}
           onChange={(e) => {
             setComment((comment) => ({
@@ -154,7 +154,7 @@ export default function AddComment(props) {
         <TextField
           id="outlined-multiline-static"
           multiline
-          rows={4}
+          rows={8}
           value={comment.grading}
           onChange={(e) => {
             setComment((comment) => ({
@@ -172,7 +172,7 @@ export default function AddComment(props) {
         <TextField
           id="outlined-multiline-static"
           multiline
-          rows={4}
+          rows={8}
           value={comment.homework}
           onChange={(e) => {
             setComment((comment) => ({
@@ -190,7 +190,7 @@ export default function AddComment(props) {
         <TextField
           id="outlined-multiline-static"
           multiline
-          rows={4}
+          rows={8}
           value={comment.other}
           onChange={(e) => {
             setComment((comment) => ({
@@ -203,12 +203,12 @@ export default function AddComment(props) {
       </div>
       <div className={classes.col_1_block}>
         <Typography variant="h6" component="h2">
-          一句話總結
+          總結
         </Typography>
         <TextField
           id="outlined-multiline-static"
           multiline
-          rows={2}
+          rows={8}
           value={comment.conclusion}
           onChange={(e) => {
             setComment((comment) => ({

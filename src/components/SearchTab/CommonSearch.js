@@ -37,13 +37,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const option_list1 = ["國文", "英文", "外文", "進階英文", "體育"];
-const option_list2 = [1, 2, 3];
+// const option_list2 = [1, 2, 3];
 
 function CommonSearch(props) {
   const { searchConditions, setSearchConditions } = props;
   const classes = useStyles();
   const [select_1, setSelect_1] = useState([]);
-  const [select_2, setSelect_2] = useState(option_list2);
+  // const [select_2, setSelect_2] = useState(option_list2);
   const [select_3, setSelect_3] = useState([]);
 
   // const option_list3 = ["含小組討論", "校際課程"];
@@ -107,7 +107,7 @@ function CommonSearch(props) {
           })
         }
       />
-      <FormControl className={classes.formControl}>
+      {/* <FormControl className={classes.formControl}>
         <InputLabel id="mutiple-checkbox-label">加選方式</InputLabel>
         <Select
           labelId="mutiple-checkbox-label"
@@ -141,7 +141,7 @@ function CommonSearch(props) {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl> */}
       {/* <FormControl className={classes.formControl}>
         <InputLabel id="mutiple-checkbox-label">其他選項</InputLabel>
         <Select

@@ -64,6 +64,7 @@ function Row(props) {
     3: "三",
     4: "四",
     5: "五",
+    6: "六",
   };
   let timeClassroom = "";
   let validDayCount = 0;
@@ -101,9 +102,9 @@ function Row(props) {
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
-        <TableCell className={classes.tablecell} align="right">
+        {/* <TableCell className={classes.tablecell} align="right">
           {row.department}
-        </TableCell>
+        </TableCell> */}
         <TableCell className={classes.tablecell} align="right">
           {row.courseName}
         </TableCell>
@@ -165,9 +166,9 @@ function CourseList(props) {
           <TableRow>
             {/* <TableCell /> */}
             {/* <TableCell align="left">{attributes[0]}</TableCell> */}
-            <TableCell className={classes.tablecell_top} align="right">
+            {/* <TableCell className={classes.tablecell_top} align="right">
               {attributes[1]}
-            </TableCell>
+            </TableCell> */}
             <TableCell className={classes.tablecell_top} align="right">
               {attributes[2]}
             </TableCell>

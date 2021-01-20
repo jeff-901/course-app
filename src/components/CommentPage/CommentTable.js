@@ -50,12 +50,24 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
-  // TODO: should add to comment schema and fetch from DB
-  // const tags = [
-  //   JSON.parse(row.tag1),
-  //   JSON.parse(row.tag2),
-  //   JSON.parse(row.tag3),
-  // ];
+  const bookArr = row.book.split("\n").map((x) => {
+    return x.trimLeft(" ");
+  });
+  const teachingStyleArr = row.teachingStyle.split("\n").map((x) => {
+    return x.trimLeft(" ");
+  });
+  const gradingArr = row.grading.split("\n").map((x) => {
+    return x.trimLeft(" ");
+  });
+  const homeworkArr = row.homework.split("\n").map((x) => {
+    return x.trimLeft(" ");
+  });
+  const otherArr = row.other.split("\n").map((x) => {
+    return x.trimLeft(" ");
+  });
+  const conclusionArr = row.conclusion.split("\n").map((x) => {
+    return x.trimLeft(" ");
+  });
 
   return (
     <React.Fragment>
@@ -72,12 +84,12 @@ function Row(props) {
         <TableCell className={classes.tablecell} align="left">
           {row.semester}
         </TableCell>
-        <TableCell className={classes.tablecell} align="left">
+        {/* <TableCell className={classes.tablecell} align="left">
           {row.username}
-        </TableCell>
-        <TableCell className={classes.tablecell} component="th" scope="row">
+        </TableCell> */}
+        {/* <TableCell className={classes.tablecell} component="th" scope="row">
           {row.conclusion}
-        </TableCell>
+        </TableCell> */}
         <TableCell className={classes.tablecell} align="right">
           <Button
             style={{ background: "rgba(255, 230, 179, 0.3)" }}
@@ -124,28 +136,56 @@ function Row(props) {
                 上課用書(影印講義或是指定教科書)
               </Typography>
               <Typography variant="p" gutterBottom component="div">
-                {row.book}
+                {bookArr.map((sentence) => {
+                  return (
+                    <>
+                      {sentence}
+                      <br />
+                    </>
+                  );
+                })}
                 <p></p>
               </Typography>
               <Typography variant="h5" gutterBottom component="div">
                 上課方式(投影片、團體討論、老師教學風格)
               </Typography>
               <Typography variant="p" gutterBottom component="div">
-                {row.teachingStyle}
+                {teachingStyleArr.map((sentence) => {
+                  return (
+                    <>
+                      {sentence}
+                      <br />
+                    </>
+                  );
+                })}
                 <p></p>
               </Typography>
               <Typography variant="h5" gutterBottom component="div">
                 評分方式(給分甜嗎？是紮實分？)
               </Typography>
               <Typography variant="p" gutterBottom component="div">
-                {row.grading}
+                {gradingArr.map((sentence) => {
+                  return (
+                    <>
+                      {sentence}
+                      <br />
+                    </>
+                  );
+                })}
                 <p></p>
               </Typography>
               <Typography variant="h5" gutterBottom component="div">
                 考題型式、作業方式
               </Typography>
               <Typography variant="p" gutterBottom component="div">
-                {row.homework}
+                {homeworkArr.map((sentence) => {
+                  return (
+                    <>
+                      {sentence}
+                      <br />
+                    </>
+                  );
+                })}
                 <p></p>
               </Typography>
               <Typography variant="h5" gutterBottom component="div">
@@ -153,7 +193,28 @@ function Row(props) {
                 加簽習慣？嚴禁遲到等…)
               </Typography>
               <Typography variant="p" gutterBottom component="div">
-                {row.other}
+                {otherArr.map((sentence) => {
+                  return (
+                    <>
+                      {sentence}
+                      <br />
+                    </>
+                  );
+                })}
+                <p></p>
+              </Typography>
+              <Typography variant="h5" gutterBottom component="div">
+                總結
+              </Typography>
+              <Typography variant="p" gutterBottom component="div">
+                {conclusionArr.map((sentence) => {
+                  return (
+                    <>
+                      {sentence}
+                      <br />
+                    </>
+                  );
+                })}
                 <p></p>
               </Typography>
             </Box>
@@ -177,14 +238,14 @@ function CommentTable(props) {
             <TableCell className={classes.tablecell} align="left">
               {attributes[0]}
             </TableCell>
-            <TableCell className={classes.tablecell} align="left">
+            {/* <TableCell className={classes.tablecell} align="left">
               {attributes[1]}
-            </TableCell>
-            <TableCell className={classes.tablecell} component="th" scope="row">
+            </TableCell> */}
+            {/* <TableCell className={classes.tablecell} component="th" scope="row">
               {attributes[3]}
-            </TableCell>
+            </TableCell> */}
             <TableCell className={classes.tablecell} align="right">
-              HashTag
+              標籤
             </TableCell>
             <TableCell className={classes.tablecell} align="right">
               {attributes[2]}

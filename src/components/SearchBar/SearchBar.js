@@ -49,20 +49,6 @@ export default function SearchBar(props) {
 
   return (
     <div className={classes.btn_row}>
-      <TimeSelect
-        className={classes.time_select}
-        searchConditions={props.searchConditions}
-        setSearchConditions={props.setSearchConditions}
-      />
-      <SearchButton className={classes.btn} search={props.search} />
-      <PopularitySelect className={classes.btn} />
-      <TagSelect
-        className={classes.btn}
-        allTags={props.allTags}
-        findTags={props.findTags}
-        selectTag={props.selectTag}
-        setSelectTag={props.setSelectTag}
-      />
       <FormControl className={classes.formControl}>
         {/* <InputLabel id="demo-simple-select-label"></InputLabel> */}
         <Select
@@ -87,6 +73,20 @@ export default function SearchBar(props) {
           ))}
         </Select>
       </FormControl>
+      <TimeSelect
+        className={classes.time_select}
+        searchConditions={props.searchConditions}
+        setSearchConditions={props.setSearchConditions}
+      />
+      <PopularitySelect className={classes.btn} />
+      <TagSelect
+        className={classes.btn}
+        allTags={props.allTags}
+        findTags={props.findTags}
+        selectTag={props.selectTag}
+        setSelectTag={props.setSelectTag}
+      />
+      <SearchButton className={classes.btn} search={props.search} />
     </div>
   );
 }

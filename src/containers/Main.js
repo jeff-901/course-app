@@ -27,9 +27,11 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
+import LockIcon from "@material-ui/icons/Lock";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { checkUser } from "../axios.js";
 import sha256 from "../Mysha256.js";
+import SignUp from "../components/MyAppBar/SignUp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  paper: {
-    marginTop: theme.spacing(16),
+  submitBtn: {
+    marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -126,7 +128,7 @@ const searchConditionsInit = {
   選修: true,
   服學: false,
   通識領域: [false, false, false, false, false, false, false, false],
-  含小組討論: true,
+  含小組討論: false,
   國文: false,
   英文: false,
   外文: false,
@@ -167,6 +169,10 @@ function Main(props) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [correct, setCorrect] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = React.useState(0);
+  const [signup, setSignup] = useState(false);
+
   // const { refetch, loading, error, data } = useQuery(COURSES_QUERY);
   const [searchConditions, setSearchConditions] = useState(
     searchConditionsInit
@@ -183,7 +189,9 @@ function Main(props) {
   };
 
   const findCourses = async () => {
-    console.log(searchConditions);
+    setCourses([]);
+    // console.log(searchConditions);
+    setLoading(true);
     let condition = searchConditions;
     let filter = {};
     const commonRequired = [];
@@ -230,6 +238,7 @@ function Main(props) {
       } else if (key === "國英外文" && condition[key]) {
         filter["commonRequired"] = ".*[國文|英文|外文]+.*";
       } else if (key === "跨校課程" && condition[key]) {
+        // console.log("filter");
         filter["college"] = "三校聯盟";
       } else if (key === "學程" && condition[key]) {
       } else if (key === "大學部" && condition[key]) {
@@ -238,7 +247,7 @@ function Main(props) {
         filter["department"] = ".*所";
       } else if (key === "其他學校性課程" && condition[key]) {
         filter["otherCourse"] = ".+";
-      } else if (key === "學院") {
+      } else if (key === "學院" && condition[key] !== "") {
         filter["college"] = condition[key];
       } else if (key === "系所") {
         filter["department"] = condition[key];
@@ -266,6 +275,8 @@ function Main(props) {
         } else if (filter["general"].length > 0) {
           filter["general"] = "[" + filter["general"] + "]+";
         }
+      } else if (key === "含小組討論" && condition[key]) {
+        filter["general"] = "小組討論A" + filter["general"];
       } else if (key === "國文" && condition[key]) {
         filter["commonRequired"] = "國文";
       } else if (key === "英文" && condition[key]) {
@@ -297,9 +308,11 @@ function Main(props) {
     if (selectTag.length > 0) {
       filter["tags"] = "[" + tags.join("|") + "]+";
     }
-
+    // console.log(filter["college"]);
     let data = await findCourse(filter);
     setCourses(data);
+    setPage(0);
+    setLoading(false);
   };
 
   const findTags = async () => {
@@ -310,6 +323,14 @@ function Main(props) {
     // }
     setAllTags(data);
   };
+  useEffect(() => {
+    console.log("change");
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [page]);
   // useEffect(async () => {
   //   if ()
   //   await findTags();
@@ -329,16 +350,19 @@ function Main(props) {
 
   const handleSignIn = (e) => {
     e.preventDefault();
+    setLoading(true);
     checkUser(id, password).then((result) => {
       if (result !== 0) {
         setCorrect(true);
         props.setUser(result);
         props.setMyCourse(JSON.parse(result.courses));
       } else {
+        console.log("wrong credential");
         setPassword("");
         setCorrect(false);
       }
     });
+    setLoading(false);
   };
 
   const pages = [
@@ -363,15 +387,21 @@ function Main(props) {
             selectTag={selectTag}
             setSelectTag={setSelectTag}
           />
-          <SearchCourseTable
-            user={props.user}
-            courses={courses}
-            myCourse={props.myCourse}
-            setMyCourse={props.setMyCourse}
-            findTags={findTags}
-            allTags={allTags}
-            setAllTags={setAllTags}
-          />
+          {loading ? (
+            <h1>Loading</h1>
+          ) : (
+            <SearchCourseTable
+              user={props.user}
+              courses={courses}
+              myCourse={props.myCourse}
+              setMyCourse={props.setMyCourse}
+              findTags={findTags}
+              allTags={allTags}
+              setAllTags={setAllTags}
+              page={page}
+              setPage={setPage}
+            />
+          )}
         </Container>
       ),
       icon: <SearchIcon />,
@@ -385,6 +415,15 @@ function Main(props) {
             myCourse={props.myCourse}
             setMyCourse={props.setMyCourse}
           />
+        </Container>
+      ),
+      icon: <ListAltIcon />,
+    },
+    {
+      title: "使用說明",
+      content: (
+        <Container maxWidth="auto" className={classes.container}>
+          <p></p>
         </Container>
       ),
       icon: <ListAltIcon />,
@@ -404,7 +443,7 @@ function Main(props) {
     // },
   ];
   let now_user = props.user;
-  console.log(now_user);
+  // console.log(signup);
   return (
     <>
       {now_user ? (
@@ -415,6 +454,7 @@ function Main(props) {
             setUser={props.setUser}
             open={open}
             setOpen={setOpen}
+            setPassword={setPassword}
           />
           <Sidebar
             pages={pages}
@@ -447,26 +487,36 @@ function Main(props) {
         </div>
       ) : (
         <>
-          <CssBaseline />
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <MyAppBar
-                user={props.user}
-                setUser={props.setUser}
-                open={open}
-                setOpen={setOpen}
-              />
-            </Grid>
-            <Grid item xs={12} sm={5}>
+          {/* <CssBaseline /> */}
+          {/* <Grid container spacing={2}>
+            <Grid item xs={12}> */}
+          <MyAppBar
+            user={props.user}
+            setUser={props.setUser}
+            open={open}
+            setOpen={setOpen}
+          />
+          {/* </Grid>
+            <Grid item xs={12} sm={5}> */}
+          {loading ? (
+            <div className={classes.paper}>
+              <h1>Loading</h1>
+            </div>
+          ) : (
+            <>
+              {signup ? <SignUp setSignup={setSignup} /> : <></>}
               <Container component="main" maxWidth="xs">
                 <div className={classes.paper}>
-                  {/* <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar> */}
-                  <Typography component="h1" variant="h5">
-                    Sign in
+                  <Typography component="h1" variant="h3">
+                    <LockIcon fontSize="large" />
+                    SIGN IN
                   </Typography>
-                  <form className={classes.form} noValidate>
+                  <form
+                    className={classes.form}
+                    noValidate
+                    onSubmit={handleSignIn}
+                  >
+                    {/* <Grid item xs={12}> */}
                     <TextField
                       variant="outlined"
                       margin="normal"
@@ -479,6 +529,8 @@ function Main(props) {
                       autoFocus
                       onInput={(e) => setId(e.target.value)}
                     />
+                    {/* </Grid> */}
+                    {/* <Grid item xs={12}> */}
                     <TextField
                       variant="outlined"
                       margin="normal"
@@ -491,40 +543,41 @@ function Main(props) {
                       id="password"
                       autoComplete="current-password"
                       onInput={(e) => setPassword(e.target.value)}
-                      // value={password}
+                      value={password}
                       helperText={correct ? "" : "Incorrect Id or password"}
                       onClick={() => setCorrect(true)}
                     />
-                    {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
+                    {/* </Grid> */}
+                    {/* <Grid item xs={12} > */}
                     <Button
+                      className={classes.submitBtn}
                       type="submit"
                       fullWidth
                       variant="contained"
                       color="primary"
-                      onClick={handleSignIn}
+                      // onClick={handleSignIn}
                     >
                       Sign In
                     </Button>
-                    {/* <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid> */}
+                    {/* </Grid> */}
+                    {/* <Grid item xs={12}> */}
+                    <Link
+                      href="#"
+                      variant="body2"
+                      onClick={() => {
+                        setSignup(true);
+                      }}
+                    >
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                    {/* </Grid> */}
                   </form>
                 </div>
               </Container>
-            </Grid>
-            <Grid item xs={12} sm={7} className={classes.paper}>
+            </>
+          )}
+          {/* </Grid> */}
+          {/* <Grid item xs={12} sm={7} className={classes.paper}>
               <Container component="main" maxWidth="xs">
                 <div>
                   <Typography>text</Typography>
@@ -537,8 +590,8 @@ function Main(props) {
                   />
                 </div>
               </Container>
-            </Grid>
-          </Grid>
+            </Grid> */}
+          {/* </Grid> */}
         </>
       )}
     </>

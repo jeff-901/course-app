@@ -63,6 +63,7 @@ function MyAppBar(props) {
   const handleLogout = () => {
     setAnchorEl(null);
     props.setUser(false);
+    props.setPassword("");
   };
 
   return (
@@ -126,10 +127,10 @@ function MyAppBar(props) {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose} component={Link} to="/mycourses">
                 My courses
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>

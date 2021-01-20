@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -54,7 +54,20 @@ function GeneralSearch(props) {
   const classes = useStyles();
   const [select_1, setSelect_1] = useState([]);
   const [select_2, setSelect_2] = useState(option_list2);
-  const [select_3, setSelect_3] = useState(["含小組討論"]);
+  const [select_3, setSelect_3] = useState([]);
+
+  useEffect(() => {
+    let next_select_1 = [];
+    // console.log(searchConditions["通識領域"]);
+    // console.log(searchConditions["通識領域"].length);
+    for (let i = 0; i < searchConditions["通識領域"].length; i++) {
+      // console.log(i, ": ", searchConditions["通識領域"][i]);
+      if (searchConditions["通識領域"][i] === true) {
+        next_select_1.push(option_list1[i]);
+      }
+    }
+    setSelect_1(next_select_1);
+  }, [searchConditions]);
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -65,8 +78,19 @@ function GeneralSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={select_1}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={(e) => {
-            setSelect_1(e.target.value);
+            // setSelect_1(e.target.value);
             let booleanOptions = [
               false,
               false,
@@ -75,13 +99,17 @@ function GeneralSearch(props) {
               false,
               false,
               false,
+              false,
             ];
+            // console.log(e.target.value);
             e.target.value.map((option) => {
               let index = option_list1.indexOf(option);
               if (index > -1) {
                 booleanOptions[index] = true;
               }
+              // console.log(booleanOptions);
             });
+            // console.log(booleanOptions);
             setSearchConditions({
               ...searchConditions,
               通識領域: booleanOptions,
@@ -141,6 +169,17 @@ function GeneralSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={select_2}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={(e) => {
             setSelect_2(e.target.value);
             let booleanOptions = [false, false, false];
@@ -176,6 +215,17 @@ function GeneralSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={select_3}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={(e) => {
             setSelect_3(e.target.value);
             let next_searchConditions = { ...searchConditions };

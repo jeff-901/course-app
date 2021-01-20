@@ -189,6 +189,17 @@ function DepartmentSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={yearSelected}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={handleCheckYear}
           input={<Input />}
           renderValue={(selected) => selected.join(", ")}
@@ -211,6 +222,17 @@ function DepartmentSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={optionSelected}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={handleCheckOption}
           input={<Input />}
           renderValue={(selected) => selected.join(", ")}
