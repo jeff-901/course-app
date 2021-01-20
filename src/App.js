@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Switch, Route, Redirect } from "react-router-dom";
 import CommentPage from "./containers/CommentPage";
 import MyCoursePage from "./containers/MyCoursePage";
+import Instruction from "./containers/Instruction.js";
 // Main
 
 function App() {
@@ -61,6 +62,9 @@ function App() {
         </Route>
         <Route path="/mycourses">
           <MyCoursePage myCourse={myCourse} setMyCourse={setMyCourse} />
+        </Route>
+        <Route path="/instruction">
+          <Instruction />
         </Route>
         <Redirect from="/Home" to="/" />
       </Switch>

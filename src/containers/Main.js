@@ -12,6 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import SearchTab from "./SearchTab";
 import SearchIcon from "@material-ui/icons/Search";
 import ListAltIcon from "@material-ui/icons/ListAlt";
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import MyCoursePage from "./MyCoursePage";
 // import { COURSES_QUERY } from "../graphql";
 // import { useQuery, useMutation } from "@apollo/client";
@@ -32,6 +33,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { checkUser } from "../axios.js";
 import sha256 from "../Mysha256.js";
 import SignUp from "../components/MyAppBar/SignUp";
+import Instruction from "./Instruction.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +56,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  instruction: {
+    marginTop: theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "left",
   },
   submitBtn: {
     marginTop: theme.spacing(2),
@@ -420,13 +429,13 @@ function Main(props) {
       icon: <ListAltIcon />,
     },
     {
-      title: "使用說明",
+      title: "使用教學",
       content: (
-        <Container maxWidth="auto" className={classes.container}>
-          <p></p>
+        <Container maxWidth="auto" className={classes.instruction}>
+          <Instruction/>
         </Container>
       ),
-      icon: <ListAltIcon />,
+      icon: <MenuBookIcon />,
     },
     // {
     //   title: "評論",
