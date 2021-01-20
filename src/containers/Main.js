@@ -324,7 +324,7 @@ function Main(props) {
     setAllTags(data);
   };
   useEffect(() => {
-    console.log("change");
+    // console.log("change");
     window.scroll({
       top: 0,
       left: 0,

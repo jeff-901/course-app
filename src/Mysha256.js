@@ -100,4 +100,4 @@ const Mysha256 = function sha256(ascii) {
   }
   return result;
 };
-export default Mysha256;
+module.export = Mysha256;

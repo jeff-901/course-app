@@ -136,10 +136,13 @@ function Row(props) {
       j++;
     }
   }
+
+  const timeClassroomArr = timeClassroom.split(")");
+
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
-        <TableCell>
+        {/* <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -148,7 +151,7 @@ function Row(props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        </TableCell>
+        </TableCell> */}
         <TableCell className={classes.tablecell} align="left">
           {row.courseCode}
         </TableCell>
@@ -165,7 +168,17 @@ function Row(props) {
           {row.credit}
         </TableCell>
         <TableCell className={classes.tablecell} align="right">
-          {timeClassroom}
+          {timeClassroomArr.map((obj) => {
+            if (obj !== "") {
+              return (
+                <>
+                  {obj})
+                  <br />
+                </>
+              );
+            }
+          })}
+          {/* {timeClassroom} */}
         </TableCell>
         <TableCell className={classes.tablecell} align="right">
           {row.people.split("(")[0]}
@@ -197,7 +210,7 @@ function Row(props) {
           </IconButton>
         </TableCell>
       </TableRow>
-      <TableRow className={classes.info}>
+      {/* <TableRow className={classes.info}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={11}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
@@ -207,7 +220,7 @@ function Row(props) {
             </Box>
           </Collapse>
         </TableCell>
-      </TableRow>
+      </TableRow> */}
     </React.Fragment>
   );
 }
@@ -291,7 +304,7 @@ function SearchCourseTable(props) {
   };
 
   useEffect(() => {
-    console.log("change")
+    console.log("change");
     window.scrollTo(0, 0);
   }, [page]);
 
@@ -309,7 +322,7 @@ function SearchCourseTable(props) {
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: "6%" }} />
+              {/* <TableCell style={{ width: "6%" }} /> */}
               <TableCell
                 align="left"
                 className={classes.firstRowCell}

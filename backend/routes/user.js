@@ -3,7 +3,7 @@
 // import User from "../models/user";
 const User = require("../models/user");
 const ntuccLogin = require("./ntuccLogin.js");
-import sha256 from "../../src/Mysha256.js";
+const sha256 = require("../../src/Mysha256.js");
 
 // import User from "../models/user";
 // import ntuccLogin from "./ntuccLogin.js";
@@ -40,7 +40,7 @@ exports.CheckUser = async (req, res) => {
             res.status(200).send({ message: "wrong password", user: 0 });
           }
         }
-      })
+      });
       // res.status(200).send({ message: "invalid user", user: 0 });
     } else {
       User.find({ id: client_id }).exec((err, r) => {

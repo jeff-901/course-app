@@ -1,8 +1,10 @@
 /** @format */
 
 import axios from "axios";
-
-const baseURL = process.env.baseURL || "http://localhost:4000";
+require("dotenv").config(); //{ path: require("find-config")(".env") }
+// console.log(process.env.REACT_APP_baseURL);
+// console.log(process.env);
+const baseURL = process.env.REACT_APP_baseURL || "http://localhost:4000";
 const instance = axios.create({ baseURL: baseURL + "/api" });
 
 const createUser = async (payload) => {

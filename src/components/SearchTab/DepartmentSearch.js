@@ -38,35 +38,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const options = ["必修", "選修", "服學"];
-const years = ["大一", "大二", "大三", "大四", "研究所"];
+// const years = ["大一", "大二", "大三", "大四", "研究所"];
 
 function DepartmentSearch(props) {
   const { searchConditions, setSearchConditions } = props;
   const classes = useStyles();
   const [optionSelected, setOption] = useState(["必修", "選修"]);
-  const [yearSelected, setYear] = useState(["大一", "大二", "大三", "大四"]);
+  // const [yearSelected, setYear] = useState(["大一", "大二", "大三", "大四"]);
 
-  const handleCheckYear = (e) => {
-    setYear(e.target.value);
-    let booleanYears = [false, false, false, false];
-    e.target.value.map((year) => {
-      let index = years.indexOf(year);
-      if (index > -1) {
-        if (index == 4) {
-          setSearchConditions({
-            ...searchConditions,
-            研究所: true,
-          });
-        } else {
-          booleanYears[index] = true;
-        }
-      }
-    });
-    setSearchConditions({
-      ...searchConditions,
-      年級: booleanYears,
-    });
-  };
+  // const handleCheckYear = (e) => {
+  //   setYear(e.target.value);
+  //   let booleanYears = [false, false, false, false];
+  //   e.target.value.map((year) => {
+  //     let index = years.indexOf(year);
+  //     if (index > -1) {
+  //       if (index == 4) {
+  //         setSearchConditions({
+  //           ...searchConditions,
+  //           研究所: true,
+  //         });
+  //       } else {
+  //         booleanYears[index] = true;
+  //       }
+  //     }
+  //   });
+  //   setSearchConditions({
+  //     ...searchConditions,
+  //     年級: booleanYears,
+  //   });
+  // };
 
   const handleCheckOption = (e) => {
     setOption(e.target.value);
@@ -182,7 +182,7 @@ function DepartmentSearch(props) {
           })
         }
       />
-      <FormControl className={classes.formControl}>
+      {/* <FormControl className={classes.formControl}>
         <InputLabel id="mutiple-checkbox-label">年級</InputLabel>
         <Select
           labelId="mutiple-checkbox-label"
@@ -214,7 +214,7 @@ function DepartmentSearch(props) {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl> */}
       <FormControl className={classes.formControl}>
         <InputLabel id="mutiple-checkbox-label">其他選項</InputLabel>
         <Select
