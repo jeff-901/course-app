@@ -158,6 +158,7 @@ export default function CommentPage(props) {
             console.log("fail to create comment");
           }
         });
+        setHasCommentAlready(true);
         let courses = await findCourse({
           courseName: courseData[0],
           professor: courseData[1],
@@ -167,8 +168,8 @@ export default function CommentPage(props) {
           JSON.parse(comment.tag_2).title,
           JSON.parse(comment.tag_3).title,
         ];
-        console.log(courses[0]);
-        console.log(courses[0].tags);
+        // console.log(courses[0]);
+        // console.log(courses[0].tags);
         let next_tags;
         if (courses[0].tags === "") {
           next_tags = [];
