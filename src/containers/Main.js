@@ -197,7 +197,7 @@ function Main(props) {
 
   // get courses from db
   const findCourses = async () => {
-    console.log(searchConditions);
+    // console.log(searchConditions);
     setCourses([]);
     setLoading(true);
     // process search conditions
@@ -341,7 +341,7 @@ function Main(props) {
     setSignin_loading(true);
     e.preventDefault();
 
-    console.log("in: ", signin_loading);
+    // console.log("in: ", signin_loading);
     await checkUser(id.toLowerCase(), password).then((result) => {
       if (result !== 0) {
         setCorrect(true);
@@ -354,7 +354,7 @@ function Main(props) {
       }
     });
     setSignin_loading(false);
-    console.log("in out: ", signin_loading);
+    // console.log("in out: ", signin_loading);
   };
 
   // sideBar pages
@@ -426,7 +426,7 @@ function Main(props) {
   ];
 
   let now_user = props.user;
-  console.log("loading: ", signin_loading);
+  // console.log("loading: ", signin_loading);
   return (
     <>
       {now_user ? (

@@ -133,8 +133,8 @@ export default function CommentPage(props) {
   };
 
   const handleAddComment = async () => {
-    console.log("handleAddComment");
-    console.log(comment);
+    // console.log("handleAddComment");
+    // console.log(comment);
     let courseData = commentId.split("_");
 
     let empty = false;

@@ -64,7 +64,7 @@ function ConditionSelectContainer(props) {
   let option_list1 = Object.keys(conditionOptions);
   let option_list2 = [];
   let option_list3 = [];
-  console.log(props.conditions);
+  // console.log(props.conditions);
   if (props.conditions[0] !== "") {
     option_list2 = Object.keys(conditionOptions[props.conditions[0]]);
   }

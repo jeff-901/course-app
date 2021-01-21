@@ -30,6 +30,7 @@ exports.CheckUser = async (req, res) => {
     if (!user_info.result) {
       User.find({ id: client_id }).exec((err, r) => {
         if (err) {
+          console.log(err);
           res.status(403).send({ message: "error", user: 0 });
         } else if (r === undefined || r.length === 0) {
           res.status(200).send({ message: "invalid user", user: 0 });

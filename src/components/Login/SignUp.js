@@ -9,8 +9,8 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { createUser } from "../../axios";
-import sha256 from "../../Mysha256.js";
-
+const sha256 = require("../../Mysha256.js");
+// console.log(sha256);
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -54,7 +54,7 @@ function SignUp(props) {
   const [passwordHelpText, setPasswordHelpText] = useState("");
   const [validPassword2, setValidPassword2] = useState(true);
   const [password2HelpText, setPassword2HelpText] = useState("");
-  console.log("props", props)
+  // console.log("props", props);
   const handleClose = () => {
     setOpen(false);
     props.setSignup(false);

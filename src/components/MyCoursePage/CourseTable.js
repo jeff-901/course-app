@@ -195,42 +195,42 @@ function CourseTable(props) {
 
     if (course.day1 === true) {
       let times = course.time1.split(",");
-      console.log("一", times);
+      // console.log("一", times);
       times.map((t) => {
         courseBlock["一"][t].push(course);
       });
     }
     if (course.day2 === true) {
       let times = course.time2.split(",");
-      console.log("二", times);
+      // console.log("二", times);
       times.map((t) => {
         courseBlock["二"][t].push(course);
       });
     }
     if (course.day3 === true) {
       let times = course.time3.split(",");
-      console.log("三", times);
+      // console.log("三", times);
       times.map((t) => {
         courseBlock["三"][t].push(course);
       });
     }
     if (course.day4 === true) {
       let times = course.time4.split(",");
-      console.log("四", times);
+      // console.log("四", times);
       times.map((t) => {
         courseBlock["四"][t].push(course);
       });
     }
     if (course.day5 === true) {
       let times = course.time5.split(",");
-      console.log("五", times);
+      // console.log("五", times);
       times.map((t) => {
         courseBlock["五"][t].push(course);
       });
     }
     if (course.day6 === true) {
       let times = course.time6.split(",");
-      console.log("六", times);
+      // console.log("六", times);
       times.map((t) => {
         courseBlock["六"][t].push(course);
       });

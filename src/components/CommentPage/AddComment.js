@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import allTags from "./HashTag";
 import HashTag from "./HashTag";
-import Rating from '@material-ui/lab/Rating';
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,12 +103,13 @@ export default function AddComment(props) {
             name="推薦指數"
             value={comment.recomendation}
             precision={1}
-            onChange={(event,value) => {
-              console.log(value)
+            onChange={(event, value) => {
+              // console.log(value)
               setComment((comment) => ({
                 ...comment,
                 recomendation: value,
-              }))}}
+              }));
+            }}
             size="large"
           />
           {/* <TextField

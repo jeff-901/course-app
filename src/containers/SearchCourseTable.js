@@ -315,11 +315,11 @@ function SearchCourseTable(props) {
   const handleChangePage = (event, newPage) => {
     window.scroll(0, 0);
     setPage(newPage);
-    console.log("scroll");
+    // console.log("scroll");
   };
 
   useEffect(() => {
-    console.log("change");
+    // console.log("change");
     window.scrollTo(0, 0);
   }, [page]);
 

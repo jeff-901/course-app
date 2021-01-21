@@ -13,7 +13,7 @@ export default function HashTag(props) {
   // const [value, setValue] = useState(null);
 
   const handleSelect = (e, newValue) => {
-    console.log(newValue);
+    // console.log(newValue);
     if (typeof newValue === "string") {
       setValue({
         title: newValue,
