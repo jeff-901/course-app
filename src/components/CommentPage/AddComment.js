@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import allTags from "./HashTag";
 import HashTag from "./HashTag";
+import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   col_2_block: {
     "& > div": {
       margin: theme.spacing(1),
-      width: "50%",
+      width: "80%",
     },
     display: "flex",
     marginTop: theme.spacing(1),
@@ -98,7 +99,19 @@ export default function AddComment(props) {
           <Typography variant="h6" component="h2">
             推薦指數★★★★★
           </Typography>
-          <TextField
+          <Rating
+            name="推薦指數"
+            value={comment.recomendation}
+            precision={1}
+            onChange={(event,value) => {
+              console.log(value)
+              setComment((comment) => ({
+                ...comment,
+                recomendation: value,
+              }))}}
+            size="large"
+          />
+          {/* <TextField
             id="outlined-textarea"
             value={comment.recomendation}
             onChange={(e) => {
@@ -108,7 +121,8 @@ export default function AddComment(props) {
               }));
             }}
             variant="outlined"
-          />
+            defaultValue="★★★★★"
+          />*/}
         </div>
       </div>
       <div className={classes.col_1_block}>

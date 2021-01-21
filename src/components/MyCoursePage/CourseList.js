@@ -12,6 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Link from "@material-ui/core/Link";
 import { updateUser } from "../../axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -105,8 +106,26 @@ function Row(props) {
         {/* <TableCell className={classes.tablecell} align="right">
           {row.department}
         </TableCell> */}
+        <TableCell className={classes.tablecell} align="center">
+          {row.credit}
+        </TableCell>
         <TableCell className={classes.tablecell} align="right">
+        <Link
+            href={
+              "https://nol2.aca.ntu.edu.tw/nol/coursesearch/print_table.php?" +
+              "course_id=" +
+              row.id +
+              "&class=" +
+              row.class +
+              "&ser_no=" +
+              row.serialNumber +
+              "&semester=" +
+              row.semester
+            }
+            target="_blank"
+          >
           {row.courseName}
+          </Link>
         </TableCell>
         <TableCell className={classes.tablecell} align="right">
           {row.professor}
@@ -170,12 +189,15 @@ function CourseList(props) {
               {attributes[1]}
             </TableCell> */}
             <TableCell className={classes.tablecell_top} align="right">
+              {attributes[4]}
+            </TableCell>
+            <TableCell className={classes.tablecell_top} align="right">
               {attributes[2]}
             </TableCell>
             <TableCell className={classes.tablecell_top} align="right">
               {attributes[3]}
             </TableCell>
-            {/* <TableCell align="right">{attributes[4]}</TableCell> */}
+            
             <TableCell className={classes.tablecell_top} align="right">
               {attributes[5]}
             </TableCell>

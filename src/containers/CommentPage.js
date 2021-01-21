@@ -17,10 +17,10 @@ import {
   findCourse,
   findUserComment,
   createTag,
+  updateTag,
   updateComment,
   updateCourse,
 } from "../axios";
-import { Alert } from "@material-ui/lab";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

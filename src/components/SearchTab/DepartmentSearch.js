@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const options = ["必修", "選修", "服學"];
+const options = ["必修", "選修"];
 // const years = ["大一", "大二", "大三", "大四", "研究所"];
 
 function DepartmentSearch(props) {

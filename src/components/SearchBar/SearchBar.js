@@ -10,6 +10,7 @@ import TimeSelect from "./TimeSelect";
 import SearchButton from "./SearchButton";
 import PopularitySelect from "./PopularitySelect";
 import TagSelect from "./TagSelect";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   btn_row: {
@@ -39,6 +40,21 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     maxWidth: 300,
   },
+  tag_row: {
+    display: "flex",
+    marginLeft: theme.spacing(2),
+    background: "white",
+  },
+  tag: {
+    fontSize: "6pt",
+    width: "50",
+    heght: "20",
+    margin: 2,
+    paddingTop: 1,
+    paddingBottom: 1,
+    paddingLeft: 4,
+    paddingRight: 4,
+  },
 }));
 
 const semesterList = ["109-2", "109-1", "108-2", "108-1", "107-2", "107-1"];
@@ -48,45 +64,60 @@ export default function SearchBar(props) {
   // const [semester, setSemester] = useState(props.searchConditions["semester"]);
 
   return (
-    <div className={classes.btn_row}>
-      <FormControl className={classes.formControl}>
-        {/* <InputLabel id="demo-simple-select-label"></InputLabel> */}
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={props.searchConditions["semester"]}
-          onChange={(e) => {
-            // setSemester(e.target.value);
-            // let newSearchConditions = props.searchConditions;
-            // newSearchConditions["semester"] = e.target.value;
-            props.setSearchConditions({
-              ...props.searchConditions,
-              semester: e.target.value,
-            });
-          }}
-        >
-          <MenuItem value="">學期</MenuItem>
-          {semesterList.map((sem) => (
-            <MenuItem value={sem} key={sem}>
-              {sem}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TimeSelect
-        className={classes.time_select}
-        searchConditions={props.searchConditions}
-        setSearchConditions={props.setSearchConditions}
-      />
-      <PopularitySelect className={classes.btn} />
-      <TagSelect
-        className={classes.btn}
-        allTags={props.allTags}
-        findTags={props.findTags}
-        selectTag={props.selectTag}
-        setSelectTag={props.setSelectTag}
-      />
-      <SearchButton className={classes.btn} search={props.search} />
-    </div>
+    <>
+      <div className={classes.btn_row}>
+        <FormControl className={classes.formControl}>
+          {/* <InputLabel id="demo-simple-select-label"></InputLabel> */}
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={props.searchConditions["semester"]}
+            onChange={(e) => {
+              // setSemester(e.target.value);
+              // let newSearchConditions = props.searchConditions;
+              // newSearchConditions["semester"] = e.target.value;
+              props.setSearchConditions({
+                ...props.searchConditions,
+                semester: e.target.value,
+              });
+            }}
+          >
+            <MenuItem value="">學期</MenuItem>
+            {semesterList.map((sem) => (
+              <MenuItem value={sem} key={sem}>
+                {sem}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TimeSelect
+          className={classes.time_select}
+          searchConditions={props.searchConditions}
+          setSearchConditions={props.setSearchConditions}
+        />
+        {/* <PopularitySelect className={classes.btn} /> */}
+        <TagSelect
+          className={classes.btn}
+          allTags={props.allTags}
+          findTags={props.findTags}
+          selectTag={props.selectTag}
+          setSelectTag={props.setSelectTag}
+        />
+        <SearchButton className={classes.btn} search={props.search} />
+      </div>
+      <div className={classes.tag_row}>
+        {props.selectTag.map((tag) => {
+          return (
+            <Button
+              className={classes.tag}
+              variant="contained"
+              style={{ background: "rgba(164, 210, 250, 0.5)" }}
+            >
+              {tag.title}
+            </Button>
+          );
+        })}
+      </div>
+    </>
   );
 }

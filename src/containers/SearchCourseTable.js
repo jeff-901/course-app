@@ -22,6 +22,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import CommentPage from "./CommentPage";
+import Link from "@material-ui/core/Link";
 import { findComment, updateUser } from "../axios";
 
 const useRowStyles = makeStyles((theme) => ({
@@ -159,7 +160,22 @@ function Row(props) {
           {row.designatedFor}
         </TableCell>
         <TableCell className={classes.tablecell} component="th" scope="row">
-          {row.courseName}
+          <Link
+            href={
+              "https://nol2.aca.ntu.edu.tw/nol/coursesearch/print_table.php?" +
+              "course_id=" +
+              row.id +
+              "&class=" +
+              row.class +
+              "&ser_no=" +
+              row.serialNumber +
+              "&semester=" +
+              row.semester
+            }
+            target="_blank"
+          >
+            {row.courseName}
+          </Link>
         </TableCell>
         <TableCell className={classes.tablecell} align="right">
           {row.professor}
@@ -261,9 +277,11 @@ function SearchCourseTable(props) {
     page,
     setPage,
   } = props;
+
   const [commentId, setCommentId] = useState("");
   const [openComment, setOpenComment] = useState(false);
   const [comments, setComments] = useState([]);
+
   const findComments = async (id) => {
     setComments([]); // console.log(id);
     let data = await findComment(id);
@@ -293,14 +311,11 @@ function SearchCourseTable(props) {
     "評論",
   ];
 
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const handleChangePage = (event, newPage) => {
+    window.scroll(0, 0);
     setPage(newPage);
     console.log("scroll");
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
   };
 
   useEffect(() => {

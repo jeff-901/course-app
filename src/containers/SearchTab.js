@@ -50,6 +50,13 @@ export default function SearchTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     props.resetSearchConditions();
+    if (newValue === 2) {
+      let booleanOptions = [true, true, true, true, true, true, true, true];
+      props.setSearchConditions({
+        ...props.searchConditions,
+        通識領域: booleanOptions,
+      });
+    }
   };
 
   const handleChangeIndex = (index) => {
@@ -63,7 +70,6 @@ export default function SearchTabs(props) {
         <AllSearch
           searchConditions={props.searchConditions}
           setSearchConditions={props.setSearchConditions}
-          // search={props.search}
         />
       ),
     },
@@ -72,7 +78,6 @@ export default function SearchTabs(props) {
         <DepartmentSearch
           searchConditions={props.searchConditions}
           setSearchConditions={props.setSearchConditions}
-          // search={props.search}
         />
       ),
     },
@@ -81,7 +86,6 @@ export default function SearchTabs(props) {
         <GeneralSearch
           searchConditions={props.searchConditions}
           setSearchConditions={props.setSearchConditions}
-          // search={props.search}
         />
       ),
     },
@@ -90,7 +94,6 @@ export default function SearchTabs(props) {
         <CommonSearch
           searchConditions={props.searchConditions}
           setSearchConditions={props.setSearchConditions}
-          // search={props.search}
         />
       ),
     },
@@ -99,7 +102,6 @@ export default function SearchTabs(props) {
         <ProgramSearch
           searchConditions={props.searchConditions}
           setSearchConditions={props.setSearchConditions}
-          // search={props.search}
         />
       ),
     },
@@ -108,7 +110,6 @@ export default function SearchTabs(props) {
         <OtherSearch
           searchConditions={props.searchConditions}
           setSearchConditions={props.setSearchConditions}
-          // search={props.search}
         />
       ),
     },

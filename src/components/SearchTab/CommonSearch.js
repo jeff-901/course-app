@@ -57,6 +57,17 @@ function CommonSearch(props) {
           id="mutiple-checkbox"
           multiple
           value={select_1}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={(e) => {
             setSelect_1(e.target.value);
             let next_searchConditions = { ...searchConditions };

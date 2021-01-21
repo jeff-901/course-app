@@ -12,28 +12,27 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import SearchTab from "./SearchTab";
 import SearchIcon from "@material-ui/icons/Search";
 import ListAltIcon from "@material-ui/icons/ListAlt";
-import MenuBookIcon from '@material-ui/icons/MenuBook';
+import MenuBookIcon from "@material-ui/icons/MenuBook";
 import MyCoursePage from "./MyCoursePage";
-// import { COURSES_QUERY } from "../graphql";
-// import { useQuery, useMutation } from "@apollo/client";
-import { findCourse, findTag } from "../axios";
 import SearchBar from "../components/SearchBar/SearchBar";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import LockIcon from "@material-ui/icons/Lock";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import { checkUser } from "../axios.js";
-import sha256 from "../Mysha256.js";
-import SignUp from "../components/MyAppBar/SignUp";
+// import Avatar from "@material-ui/core/Avatar";
+// import Button from "@material-ui/core/Button";
+// import TextField from "@material-ui/core/TextField";
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import Checkbox from "@material-ui/core/Checkbox";
+// import Link from "@material-ui/core/Link";
+// import Grid from "@material-ui/core/Grid";
+// import Box from "@material-ui/core/Box";
+// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+// import Typography from "@material-ui/core/Typography";
+// import LockIcon from "@material-ui/icons/Lock";
+// import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+// import sha256 from "../Mysha256.js";
+import { findCourse, findTag, checkUser } from "../axios";
+import SignUp from "../components/Login/SignUp";
 import Instruction from "./Instruction.js";
+import Loading from "../components/Loading/Loading";
+import Login from "../components/Login/Login";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     height: "100vh",
-    overflow: "auto",
+    overflow: "body",
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -171,42 +170,40 @@ const btn_text = [
 function Main(props) {
   const classes = useStyles();
   const theme = useTheme();
+  // log in
+  const [id, setId] = useState(""); // user id
+  const [password, setPassword] = useState(""); // user password
+  const [correct, setCorrect] = useState(true);
+  const [signup, setSignup] = useState(false);
+  const [signin_loading, setSignin_loading] = useState(false);
+  // sidebar
   const [open, setOpen] = useState(true); // sidebar
   const [pageIndex, setPageIndex] = useState(0); // page transistion
-  const [conditions, setConditions] = useState(["", "", ""]); // department conditions
+  // search course
   const [courses, setCourses] = useState([]); //courses result
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [correct, setCorrect] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = React.useState(0);
-  const [signup, setSignup] = useState(false);
-
-  // const { refetch, loading, error, data } = useQuery(COURSES_QUERY);
+  const [loading, setLoading] = useState(false); // loading course
   const [searchConditions, setSearchConditions] = useState(
     searchConditionsInit
   );
-
-  // TODO: fetch all tags from DB
+  const [page, setPage] = useState(0);
+  // tags
   const [allTags, setAllTags] = useState([]);
-  // TODO: include selectTag to search conditions
   const [selectTag, setSelectTag] = useState([]);
 
+  // reset search condition entering new search tabs
   const resetSearchConditions = () => {
     setSearchConditions(searchConditionsInit);
-    // console.log("reset search conditions");
   };
 
+  // get courses from db
   const findCourses = async () => {
+    console.log(searchConditions);
     setCourses([]);
-    // console.log(searchConditions);
     setLoading(true);
+    // process search conditions
     let condition = searchConditions;
     let filter = {};
-    const commonRequired = [];
-    const compulsoryRequired = [];
-    const otherCourse = [];
-    console.log(selectTag);
+    filter["commonRequired"] = "";
     for (let i = 0; i < Object.keys(condition).length; i++) {
       let key = Object.keys(condition)[i];
       if (key === "時間") {
@@ -243,23 +240,33 @@ function Main(props) {
           }
         }
       } else if (key === "體育" && condition[key]) {
-        filter["commonRequired"] = ".*[健康體適能|選修體育|專項運動|校隊].*";
+        filter["commonRequired"] = ".*[健康體適能|選修體育|專項運動|校隊]+.*";
       } else if (key === "國英外文" && condition[key]) {
         filter["commonRequired"] = ".*[國文|英文|外文]+.*";
       } else if (key === "跨校課程" && condition[key]) {
-        // console.log("filter");
-        filter["college"] = "三校聯盟";
+        filter["department"] = "國立.+";
       } else if (key === "學程" && condition[key]) {
-      } else if (key === "大學部" && condition[key]) {
+        if (condition[key] === true) {
+          filter["department"] = ".+學程";
+        } else {
+          filter["department"] = condition[key];
+        }
+      } else if (key === "大學部" && condition[key] && condition[key] !== "") {
         filter["department"] = ".*系";
-      } else if (key === "研究所" && condition[key]) {
+      } else if (key === "研究所" && condition[key] && condition[key] !== "") {
         filter["department"] = ".*所";
       } else if (key === "其他學校性課程" && condition[key]) {
         filter["otherCourse"] = ".+";
       } else if (key === "學院" && condition[key] !== "") {
-        filter["college"] = condition[key];
-      } else if (key === "系所") {
-        filter["department"] = condition[key];
+        filter["college"] = "^" + condition[key];
+      } else if (key === "系所" && condition[key] !== "") {
+        let data = condition[key].split("(");
+        // console.log(data);
+        if (data.length === 1) {
+          filter["department"] = "^" + condition[key];
+        } else {
+          filter["department"] = data[0] + "." + data[1].split(")")[0];
+        }
       } else if (key === "組別") {
         filter["group"] = condition[key];
       } else if (key === "年級") {
@@ -283,6 +290,8 @@ function Main(props) {
           filter["general"] = ".+";
         } else if (filter["general"].length > 0) {
           filter["general"] = "[" + filter["general"] + "]+";
+        } else {
+          // filter["general"] = "you can't not find";
         }
       } else if (key === "含小組討論" && condition[key]) {
         filter["general"] = "小組討論A" + filter["general"];
@@ -297,19 +306,16 @@ function Main(props) {
       } else if (key === "軍訓" && condition[key]) {
         filter["otherCourse"] = "軍訓";
       } else if (key === "共同選修" && condition[key]) {
-        filter["commonRequired"] = "共同選修";
+        filter["commonRequired"] = "共同選修.*";
       } else if (key === "新生專題" && condition[key]) {
         filter["otherCourse"] = "新生專題";
       } else if (key === "寫作教學" && condition[key]) {
         filter["otherCourse"] = "寫作教學";
       } else if (key === "基本能力課程" && condition[key]) {
         filter["otherCourse"] = "基本能力";
-      } else {
-        // console.log(key);
-        // alert("key not found");
       }
     }
-    // filter["tags"] = "";
+    // process tags
     let tags = [];
     for (let i = 0; i < selectTag.length; i++) {
       tags.push(selectTag[i].title);
@@ -317,50 +323,26 @@ function Main(props) {
     if (selectTag.length > 0) {
       filter["tags"] = "[" + tags.join("|") + "]+";
     }
-    // console.log(filter["college"]);
+    // get courses from db
     let data = await findCourse(filter);
     setCourses(data);
     setPage(0);
     setLoading(false);
   };
 
+  // get tags from db
   const findTags = async () => {
     let data = await findTag();
-    // let nextAllTags = [];
-    // for (let i = 0; i < data.length; i++) {
-    //   nextAllTags.push(data[i].title);
-    // }
     setAllTags(data);
   };
-  useEffect(() => {
-    // console.log("change");
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [page]);
-  // useEffect(async () => {
-  //   if ()
-  //   await findTags();
-  // });
-  // useEffect(() => {
-  //   if (!loading) {
-  //     console.log("data: ", data);
-  //   }
-  //   // console.log(COURSES_QUERY);
-  //   if (data != undefined) {
-  //     setCourses(data);
-  //   }
-  //   console.log("error: ", error);
-  //   console.log("loading: ", loading);
-  //   // console.log("client: ", client);
-  // });
 
-  const handleSignIn = (e) => {
+  // get user from db
+  const handleSignIn = async (e) => {
+    setSignin_loading(true);
     e.preventDefault();
-    setLoading(true);
-    checkUser(id, password).then((result) => {
+
+    console.log("in: ", signin_loading);
+    await checkUser(id.toLowerCase(), password).then((result) => {
       if (result !== 0) {
         setCorrect(true);
         props.setUser(result);
@@ -371,17 +353,17 @@ function Main(props) {
         setCorrect(false);
       }
     });
-    setLoading(false);
+    setSignin_loading(false);
+    console.log("in out: ", signin_loading);
   };
 
+  // sideBar pages
   const pages = [
     {
       title: "搜尋",
       content: (
         <Container maxWidth="auto" className={classes.container}>
           <SearchTab
-            setConditions={setConditions}
-            conditions={conditions}
             searchConditions={searchConditions}
             setSearchConditions={setSearchConditions}
             resetSearchConditions={resetSearchConditions}
@@ -397,19 +379,23 @@ function Main(props) {
             setSelectTag={setSelectTag}
           />
           {loading ? (
-            <h1>Loading</h1>
+            <div className={classes.paper}>
+              <Loading />
+            </div>
           ) : (
-            <SearchCourseTable
-              user={props.user}
-              courses={courses}
-              myCourse={props.myCourse}
-              setMyCourse={props.setMyCourse}
-              findTags={findTags}
-              allTags={allTags}
-              setAllTags={setAllTags}
-              page={page}
-              setPage={setPage}
-            />
+            <>
+              <SearchCourseTable
+                user={props.user}
+                courses={courses}
+                myCourse={props.myCourse}
+                setMyCourse={props.setMyCourse}
+                findTags={findTags}
+                allTags={allTags}
+                setAllTags={setAllTags}
+                page={page}
+                setPage={setPage}
+              />
+            </>
           )}
         </Container>
       ),
@@ -432,27 +418,15 @@ function Main(props) {
       title: "使用教學",
       content: (
         <Container maxWidth="auto" className={classes.instruction}>
-          <Instruction/>
+          <Instruction />
         </Container>
       ),
       icon: <MenuBookIcon />,
     },
-    // {
-    //   title: "評論",
-    //   content: commentId ? (
-    //     <Container maxWidth="auto" className={classes.container}>
-    //       <CommentPage commentId={commentId} />
-    //     </Container>
-    //   ) : (
-    //     <Container maxWidth="auto" className={classes.container}>
-    //       請點選課程搜尋結果的評論icon
-    //     </Container>
-    //   ),
-    //   icon: <ListAltIcon />,
-    // },
   ];
+
   let now_user = props.user;
-  // console.log(signup);
+  console.log("loading: ", signin_loading);
   return (
     <>
       {now_user ? (
@@ -496,111 +470,31 @@ function Main(props) {
         </div>
       ) : (
         <>
-          {/* <CssBaseline /> */}
-          {/* <Grid container spacing={2}>
-            <Grid item xs={12}> */}
           <MyAppBar
             user={props.user}
             setUser={props.setUser}
             open={open}
             setOpen={setOpen}
           />
-          {/* </Grid>
-            <Grid item xs={12} sm={5}> */}
-          {loading ? (
+          {signin_loading ? (
             <div className={classes.paper}>
-              <h1>Loading</h1>
+              <Loading />
             </div>
           ) : (
             <>
               {signup ? <SignUp setSignup={setSignup} /> : <></>}
-              <Container component="main" maxWidth="xs">
-                <div className={classes.paper}>
-                  <Typography component="h1" variant="h3">
-                    <LockIcon fontSize="large" />
-                    SIGN IN
-                  </Typography>
-                  <form
-                    className={classes.form}
-                    noValidate
-                    onSubmit={handleSignIn}
-                  >
-                    {/* <Grid item xs={12}> */}
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="id"
-                      label="學號"
-                      name="id"
-                      autoComplete="id"
-                      autoFocus
-                      onInput={(e) => setId(e.target.value)}
-                    />
-                    {/* </Grid> */}
-                    {/* <Grid item xs={12}> */}
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      error={!correct}
-                      fullWidth
-                      name="password"
-                      label="密碼"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                      onInput={(e) => setPassword(e.target.value)}
-                      value={password}
-                      helperText={correct ? "" : "Incorrect Id or password"}
-                      onClick={() => setCorrect(true)}
-                    />
-                    {/* </Grid> */}
-                    {/* <Grid item xs={12} > */}
-                    <Button
-                      className={classes.submitBtn}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      // onClick={handleSignIn}
-                    >
-                      Sign In
-                    </Button>
-                    {/* </Grid> */}
-                    {/* <Grid item xs={12}> */}
-                    <Link
-                      href="#"
-                      variant="body2"
-                      onClick={() => {
-                        setSignup(true);
-                      }}
-                    >
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                    {/* </Grid> */}
-                  </form>
-                </div>
-              </Container>
+              <Login
+                handleSignIn={handleSignIn}
+                setId={setId}
+                correct={correct}
+                setCorrect={setCorrect}
+                password={password}
+                setPassword={setPassword}
+                signup={signup}
+                setSignup={setSignup}
+              />
             </>
           )}
-          {/* </Grid> */}
-          {/* <Grid item xs={12} sm={7} className={classes.paper}>
-              <Container component="main" maxWidth="xs">
-                <div>
-                  <Typography>text</Typography>
-                  <TextareaAutosize
-                    rowsMax={8}
-                    aria-label="maximum height"
-                    placeholder="Maximum 4 rows"
-                    defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua."
-                  />
-                </div>
-              </Container>
-            </Grid> */}
-          {/* </Grid> */}
         </>
       )}
     </>

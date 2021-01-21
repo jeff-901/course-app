@@ -62,7 +62,7 @@ const findComment = async (id) => {
   const {
     data: { comments },
   } = await instance.post("/findComment", { id: id });
-  // console.log("data: ", courses);
+  // console.log("data: ", comments);
   return comments;
   // return course;
 };

@@ -7,6 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
+import programs from "../../programs.json";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,22 +34,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 // TODO: program list
-const option_list1 = [
-  "軍訓",
-  "共同選修",
-  "新生專題",
-  "寫作教學",
-  "基本能力課程",
-];
+// console.log(programs);
+const option_list1 = programs;
 
-function OtherSearch(props) {
+function ProgramSearch(props) {
   const { searchConditions, setSearchConditions } = props;
   const classes = useStyles();
   const [select_1, setSelect_1] = useState([]);
   useEffect(() => {
     let flag = true;
     option_list1.map((option) => {
-      if (searchConditions[option] === true) {
+      if (searchConditions["學程"] === option) {
         setSelect_1(option);
         flag = false;
       }
@@ -65,14 +61,26 @@ function OtherSearch(props) {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={select_1}
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            getContentAnchorEl: null,
+          }}
           onChange={(e) => {
             // setSelect_1(e.target.value);
             let next_searchConditions = { ...searchConditions };
+            next_searchConditions["學程"] = false;
             option_list1.map((option) => {
               if (e.target.value.indexOf(option) > -1) {
-                next_searchConditions[option] = true;
+                next_searchConditions["學程"] = option;
               } else {
-                next_searchConditions[option] = false;
+                // next_searchConditions[option] = false;
               }
             });
             setSearchConditions(next_searchConditions);
@@ -114,4 +122,4 @@ function OtherSearch(props) {
   );
 }
 
-export default OtherSearch;
+export default ProgramSearch;

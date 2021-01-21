@@ -41,17 +41,16 @@ const option_list2 = [1, 2, 3];
 const option_list3 = [
   "體育",
   "國英外文",
-  "跨校課程",
-  "學程",
-  "大學部",
-  "研究所",
-  "其他全校性課程",
+  // "跨校課程",
+  // "學程",
+  // "大學部",
+  // "研究所",
 ];
 function AllSearch(props) {
   const { searchConditions, setSearchConditions } = props;
   const [select_1, setSelect_1] = useState("");
   const [select_2, setSelect_2] = useState(option_list2);
-  const [select_3, setSelect_3] = useState(["大學部"]);
+  const [select_3, setSelect_3] = useState(option_list3);
   const classes = useStyles();
 
   return (
@@ -160,53 +159,6 @@ function AllSearch(props) {
               </MenuItem>
             );
           })}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        {/* <InputLabel id="mutiple-checkbox-label">其他選項</InputLabel> */}
-        <InputLabel id="mutiple-checkbox-label"></InputLabel>
-        <Select
-          labelId="mutiple-checkbox-label"
-          id="mutiple-checkbox"
-          multiple
-          value={select_3}
-          MenuProps={{
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "left",
-            },
-            transformOrigin: {
-              vertical: "top",
-              horizontal: "left",
-            },
-            getContentAnchorEl: null,
-          }}
-          onChange={(e) => {
-            setSelect_3(e.target.value);
-            let next_searchConditions = { ...searchConditions };
-            option_list3.map((option) => {
-              if (e.target.value.indexOf(option) > -1) {
-                next_searchConditions[option] = true;
-              } else {
-                next_searchConditions[option] = false;
-              }
-            });
-            setSearchConditions(next_searchConditions);
-          }}
-          input={<Input />}
-          renderValue={() => {
-            return "其他選項";
-          }}
-        >
-          {option_list3.map((option) => (
-            <MenuItem key={option} value={option}>
-              <Checkbox
-                color="primary"
-                checked={select_3.indexOf(option) > -1}
-              />
-              <ListItemText primary={option} />
-            </MenuItem>
-          ))}
         </Select>
       </FormControl>
     </form>

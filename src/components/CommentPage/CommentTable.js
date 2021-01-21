@@ -44,6 +44,7 @@ const useRowStyles = makeStyles({
 });
 
 const attributes = ["修課學期", "發布人", "推薦指數", "一句話總結"];
+const star = ["★","★★","★★★","★★★★","★★★★★"]
 
 function Row(props) {
   const { row } = props;
@@ -121,7 +122,7 @@ function Row(props) {
           })} */}
         </TableCell>
         <TableCell className={classes.tablecell} align="right">
-          {row.recomendation}
+          {star[row.recomendation-1]}
         </TableCell>
       </TableRow>
       <TableRow className={classes.info}>
