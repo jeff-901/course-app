@@ -25,7 +25,10 @@ const checkUser = async (id, password) => {
 const updateUser = async (id, myCourse) => {
   const {
     data: { user },
-  } = await instance.post("/updateUser", { id: id, myCourse: myCourse });
+  } = await instance.post("/updateUser", {
+    id: id,
+    myCourse: myCourse,
+  });
   return user;
 };
 
