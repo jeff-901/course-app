@@ -1,70 +1,89 @@
-# Getting Started with Create React App
+# 台大課程網 2.0
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 基本介紹
 
-## Available Scripts
+- [109-1] Web Programming Final
+- 專題題目：(Group 22) 台大課程網 2.0
+- Deploy 連結：https://web-course-app.herokuapp.com/?fbclid=IwAR0GJVqnWDENd9l8y-2THFQMUTCQbZEnCsIuBL2o3fywhlxDqEk0Dnos1nA
+- Demo 影片：https://youtu.be/hTtdN_E4mqk
+- github 連結：https://github.com/EasonLin536/Web_final.git
 
-In the project directory, you can run:
+## 服務內容
 
-### `yarn start`
+### 更完善的選課條件
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+   - **全部查詢**：能夠快速搜尋想要的課程
+   - **系所查詢**：將原先冗長的列表，轉換成三個 level 的選項，更為清楚
+   - **通識查詢**：可以同時查詢自己缺少的領域，也可以篩選小組討論與跨校課程
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 選擇時間的機制
 
-### `yarn test`
+   - **選擇時間**：使用者選擇出自己的空堂，我們會只搜尋出符合的時間，而且每堂課的時間皆可以獨立選取
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 加入課表
 
-### `yarn build`
+   - 使用者在查詢過程中可以加入課程至**我的課表**
+   - 可以在我的課表頁面調整自己的課表，而不會一次顯示所有加入的課程在課表內
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 評論系統
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   - 使用者可以為每一堂課發表一個評論或是修改已發表的評論
+   - 每個評論會被要求為這堂課建立 3 個標籤，如：`甜`、`戀愛巴士`等等，幫助使用者快速了解該課的性質
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 標籤系統
 
-### `yarn eject`
+   - 如第四點所說，標籤除了作為評論以外，也可以用來查詢，靈感來自於 instagram 的`#hashtag`機制
+   - 使用者可以藉由**標籤搜尋**輔助找到滿意的課程
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 使用/操作方式
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 登入
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+   - 使用台大帳戶登入即可，或是可以自己 sign up 一個新的。
+   - 測試帳戶：
+  ```
+      account: b06901033
+      password: test123
+  ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 搜尋
 
-## Learn More
+   - 您可選擇：**全部查詢**、**院系所查詢**、**通識課程**、**共同必修**、**學程**、**其他全校性課程**
+   - 輸入課名時可以以簡稱搜尋，如「森林生物多樣性概論」可以「森多概」進行搜尋
+   - **選擇時間**中的表格中可以選取您有空堂的時間進行搜尋
+   - 點選**標籤**即可查詢具有該標籤的課程
+   - 點選**加入**即可將課程加入「我的課表」中
+   - 點選**評論**即可對該課程發表評論
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 我的課表
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   - 左側會顯示所有被您加入的課程
+   - 點選「加入」即可將課程加入右側的課表中或是從課表移除
+   - 點選「刪除」則可以取消選取該課程
 
-### Code Splitting
+### 評論
+   - 您可以在**所有評論**中看到所有使用者對該課程的評價
+   - 您可以在**加入/修改評論**中發表對於該課程的評價，或對您已經發表的評價進行修改
+   - 每個評論欄位皆不能空白
+   - 在輸入標籤時，請點選下拉的選單(已存在或新增的標籤皆適用)，否則標籤輸入欄會被洗白
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 使用之框架/模組/原始碼
 
-### Analyzing the Bundle Size
+#### Frontend
+   - React
+   - Material UI
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### Backend
+   - MongoDB
+   - RESTful API
 
-### Making a Progressive Web App
+## 心得
+這堂課讓我學到如何去連結後端和前端，並且在實作project後，更了解到一個project該如何去架構，應該一開始就先討論好後端api，然後前端先把db寫死，這樣可以兩邊同時進行，最後再組起來，另外前端也學到如何用material ui去組建一個框架，之後可以去學習react寫前端router，然後state能不同分頁同步。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 分工
+- B07901052 電機三 劉展碩
+    - backend、爬取課程資料、搜尋
+- B06901032 電機四 吳兩原
+    - login、爬取課程資料、爬取評論資料
+- B06901153 電機四 林瑩昇
+    - frontend、評論系統、標籤系統
